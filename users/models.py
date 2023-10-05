@@ -26,7 +26,7 @@ class User(AbstractUser):
         verbose_name='телефон')
     avatar = models.ImageField(
         **NULLABLE,
-        upload_to='app_user/avatar',
+        upload_to='avatar',
         verbose_name='аватар')
     country = models.CharField(
         **NULLABLE,
