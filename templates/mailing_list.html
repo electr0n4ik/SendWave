@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <a href="{% url 'email:create' %}" class="btn btn-sm btn-outline-secondary text-danger">
+                Добавить рассылку!</a>
+        </div>
+    </div>
+</div>
+123
+<div class="container">
+    <div class="row">
+        {% for mail in object_list %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card {% cycle 'bg-danger' 'bg-secondary' as color %} text-white shadow">
+                <div class="card-header text-center"><h5>{{ mail.subject }}</h5></div>
+                <div class="card-body">
+                    <p>Сообщение: {{ mail.message|truncatechars:35 }}</p>
+                    <p class="card-text">Получатель:
+                        {% for client in mail.send_to_client.all|slice:2 %}
+                        {{ client.full_name}}{% if not forloop.last %}, {% endif %}{% if forloop.last %}{% endif %}
+                        {% endfor %}
+                    </p>
+                    <p class="card-text">Дата: {{ mail.send_datetime }}</p>
+                    <p class="mb-0">Чистота: {{ mail.get_frequency_display }}</p>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <p class="card-text">Статус: {{ mail.get_status_display }}</p>
+                        <div>
+                            <a href="{% url 'email:update' mail.id %}"
+                               class="btn btn-sm {% if color == 'bg-danger' %}btn-secondary{% else %}btn-danger{% endif %} text-white">Edit</a>
+                            <a href="{% url 'email:delete' mail.id %}"
+                               class="btn btn-sm ms-1 {% if color == 'bg-danger' %}btn-secondary{% else %}btn-danger{% endif %} text-white">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+
+

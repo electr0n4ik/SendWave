@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center h-50">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8 col-sm-10">
+                    <div class="card shadow-lg p-4">
+                        <h4 class="text-center mb-4">Login</h4>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-danger w-100">Sing up</button>
+                            <br>
+                            <br>
+                            <p class="my-3 text-center">Not registered yet?
+                                <a href="{% url 'user:registration' %}"
+                                   class="text-danger fw-bold">Create an account!</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

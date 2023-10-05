@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center align-items-center h-50">
+        <div class="card text-center" style="max-width: 18rem;">
+            <div class="card-header bg-danger text-white">
+                Confirm Deletion
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Are you sure you want to delete this mail: {{ mail.subject }}?
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger me-2">
+                        Confirm
+                    </button>
+                    <a href="{% url 'email:list' %}" class="btn btn-sm btn-secondary">
+                        Cancel
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
