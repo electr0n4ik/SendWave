@@ -38,20 +38,10 @@ class MailingForm(forms.ModelForm):
     def clean_send_datetime(self):
         send_datetime = self.cleaned_data['send_datetime']
         cur_datetime = datetime.now() + timedelta(hours=5)
-        if send_datetime.year < cur_datetime.year:
+
+        if send_datetime < cur_datetime:
             raise ValidationError("You can't send emails in the past.")
-        if send_datetime.year == cur_datetime.year and send_datetime.month < cur_datetime.month:
-            raise ValidationError("You can't send emails in the past.")
-        if (send_datetime.year == cur_datetime.year and send_datetime.month == cur_datetime.month
-                and send_datetime.day < cur_datetime.day):
-            raise ValidationError("You can't send emails in the past.")
-        if (send_datetime.year == cur_datetime.year and send_datetime.month == cur_datetime.month
-                and send_datetime.day == cur_datetime.day and send_datetime.hour < cur_datetime.hour):
-            raise ValidationError("You can't send emails in the past.")
-        if (send_datetime.year == cur_datetime.year and send_datetime.month == cur_datetime.month
-                and send_datetime.day == cur_datetime.day and send_datetime.hour == cur_datetime.hour
-                and send_datetime.minute < cur_datetime.minute):
-            raise ValidationError("You can't send emails in the past.")
+
         return send_datetime
 
 

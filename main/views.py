@@ -11,12 +11,20 @@ class ClientListView(LoginRequiredMixin, ListView):
     template_name = 'client_list.html'
 
     def get_queryset(self):
+
+        key = 'client_list'                     #|
+        client_list = cache.get(key)            #|
+        if client_list is None:                 #|  1. кеширование списка клиентов
+            client_list = Client.objects.all()  #|
+            cache.set(key, client_list)         #|
+
         if self.request.user.is_superuser or self.request.user.groups.filter(name='manager').exists():
-            return Client.objects.all()
+            # return Client.objects.all()
+            return client_list
         return Client.objects.filter(user=self.request.user)
 
 
-class ClientCrateView(LoginRequiredMixin, CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     template_name = 'client_form.html'

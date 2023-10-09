@@ -29,8 +29,14 @@ def send_email(email):
 
 def cronjob():
     """This function is adding in crontab all emails so we can send them in proper time"""
-    emails = Mailing.objects.filter(is_active=True, status__in=['Created', 'Launched']).exclude(status='Finished')
+    # current_time = timezone.now()
     cur_time = datetime.utcnow() + timedelta(hours=5)
+    emails = Mailing.objects.filter(
+        is_active=True,
+        status__in=['Created', 'Launched'],
+        start_time__lte=cur_time,  # Рассылка началась или должна начаться
+        end_time__gte=cur_time  # Рассылка не закончилась
+    ).exclude(status='Finished')
 
     for email in emails:
         if email.status == 'Created':

@@ -19,6 +19,9 @@ class Mailing(models.Model):
         ('finished', 'Завершена'),
     )
 
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
+
     send_datetime = models.TimeField()
     frequency = models.CharField(max_length=10, choices=TIME_CHOICES)
     status = models.CharField(max_length=20, default=STATUS_CHOICES, choices=STATUS_CHOICES)
